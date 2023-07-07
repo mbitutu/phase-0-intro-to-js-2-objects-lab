@@ -1,68 +1,36 @@
-describe('employees', function() {
-  describe('updateEmployeeWithKeyAndValue(employee, key, value)', function () {
-    beforeEach(function () {
-      for (const key in employee) {
-        delete employee[key];
-      }
+const fs = require('fs')
+const path = require('path')
 
-      employee.name = 'Sam';
+const js = fs.readFileSync(path.resolve(__dirname, '..', 'index.js'), 'utf-8')
+
+describe('index.js', function () {
+  describe('companyName', function () {
+    it('is set as Scuber', function () {
+      expect(companyName).to.equal('Scuber');
     });
 
-    it('returns an employee with the original key value pairs and the new key value pair', function () {
-      expect(updateEmployeeWithKeyAndValue(employee, 'streetAddress', '11 Broadway')).to.eql({
-        name: 'Sam',
-        streetAddress: '11 Broadway'
-      });
-    });
-
-    it('it does not modify the original employee, but rather returns a clone with the new data', function () {
-      updateEmployeeWithKeyAndValue(employee, 'streetAddress', '11 Broadway');
-
-      expect(employee['streetAddress']).to.equal(undefined);
+    it('is defined as a const', function () {
+      expect(js).to.match(/const companyName/, "Expected companyName to be a const");
     });
   });
 
-  describe('destructivelyUpdateEmployeeWithKeyAndValue(employee, key, value)', function () {
-    it('updates `employee` with the given `key` and `value` (it is destructive) and returns the entire updated employee', function () {
-      expect(destructivelyUpdateEmployeeWithKeyAndValue(employee, 'streetAddress', '12 Broadway')).to.eql({
-        name: 'Sam',
-        streetAddress: '12 Broadway'
-      });
+  describe('mostProfitableNeighborhood', function () {
+    it('is declared as equal to Chelsea', function () {
+      expect(mostProfitableNeighborhood).to.equal('Chelsea');
+    });
 
-      expect(employee).to.eql({
-        name: 'Sam',
-        streetAddress: '12 Broadway'
-      });
+    it('is defined using let', function () {
+      expect(js).to.match(/let mostProfitableNeighborhood/, "Expected mostProfitableNeighborhood to be defined using let");
     });
   });
 
-  describe('deleteFromEmployeeByKey(employee, key)', function () {
-    it('deletes `key` from a clone of employee and returns the new employee (it is non-destructive)', function () {
-      let newEmployee = deleteFromEmployeeByKey(employee, 'name');
-
-      expect(newEmployee['name']).to.equal(undefined);
-      expect(typeof newEmployee).to.equal('object');
+  describe('companyCeo', function () {
+    it('is declared as equal to Susan Smith', function () {
+      expect(companyCeo).to.equal('Susan Smith');
     });
 
-    it('does not modify the original employee (it is non-destructive)', function () {
-      deleteFromEmployeeByKey(employee, 'name');
-
-      expect(employee['name']).to.equal('Sam');
-    });
-  });
-
-  describe('destructivelyDeleteFromEmployeeByKey(employee, key)', function () {
-    it('returns employee without the deleted key/value pair', function () {
-      let newEmployee = destructivelyDeleteFromEmployeeByKey(employee, 'name');
-
-      expect(newEmployee['name']).to.equal(undefined);
-    });
-
-    it('modifies the original employee', function () {
-      let newEmployee = destructivelyDeleteFromEmployeeByKey(employee, 'name');
-
-      expect(employee['name']).to.equal(undefined);
-      expect(employee).to.equal(newEmployee);
+    it('is defined using let', function () {
+      expect(js).to.match(/let companyCeo/, "Expected companyCeo to be defined using let");
     });
   });
 });
